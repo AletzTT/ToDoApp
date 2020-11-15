@@ -1,11 +1,74 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
+    <meta name="author" content="AlexTT">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css') }}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+
+    <title>ToDoApp</title>
+
 </head>
 <body>
-    
+    <header class="bg-primary p-4">
+        <div class="container">
+            <h1 class="display-3 text-center">ToDoApp</h1>
+            <h3 class="text-muted text-center">A Basic Project Management Tool</h3>
+        </div>
+    </header>
+    <br>
+    <div class="container">
+        <form action="/add" method="POST" class="form-inline">
+            <div class="form-group mr-4 w-75">
+                <label for="TaskInput" class="mb-2">To Do: </label>
+                <input type="text" id="TaskInput" name="content" class="form-control w-100" placeholder="Example: Play Drum's">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Save</button>
+
+        </form>
+    </div>
+    <br>
+    <div class="container">
+        <ul>
+            {% for task in tasks %}
+                {% if task.done == False %}
+                <div class="row no-gutters">
+                    <div class="col-sm-6 col-md-8 mb-2">
+                        <li>
+                            {{task.content}}
+                        </li>
+                    </div>
+                    <div class="col-6 col-md-4 mb-2">
+                        <a href="/done/{{task.id}}" role="button" class="btn btn-success btn-sm"> Done! </a>
+                        <a href="/delete/{{task.id}}" role="button" class="btn btn-danger btn-sm"> Delete </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row no-gutters">
+                    <div class="col-sm-6 col-md-8 mb-2">
+                        <li class="text-muted font-italic">
+                            {{task.content}}
+                        </li>
+                    </div>
+                    <div class="col-6 col-md-4 mb-2">
+                        <a href="/undone/{{task.id}}" role="button" class="btn btn-warning btn-sm"> Undone </a>
+                        <a href="/delete/{{task.id}}" role="button" class="btn btn-danger btn-sm"> Delete </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
